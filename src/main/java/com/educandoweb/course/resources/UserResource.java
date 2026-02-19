@@ -13,7 +13,7 @@ public class UserResource {
     // aqui vai ficar os endpoints para acessar os usuários
     @GetMapping
     public ResponseEntity<User> findAll(){
-        User u = new User(1L, "Maria Brown", "988888888", "123456");
+        User u = new User(1L, "Maria Brown", "988888888","maria@gmail.com", "123456");
         return ResponseEntity.ok().body(u); // retorna a resposta com sucesso
 
 
