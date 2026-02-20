@@ -2,6 +2,7 @@ package com.educandoweb.course.config;
 
 import com.educandoweb.course.entities.Order;
 import com.educandoweb.course.entities.User;
+import com.educandoweb.course.entities.enums.OrderStatus;
 import com.educandoweb.course.repositories.OrderRepository;
 import com.educandoweb.course.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class TestConfig implements CommandLineRunner {
         User u1 = new User(null, "Maria Brown", "988888888","maria@gmail.com", "123456");
         User u2 = new User(null, "Alex Green", "977777777","alex@gmail.com", "123456");
 
-        Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1);
-        Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2);
-        Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u1);
+        Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
+        Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"),OrderStatus.WAITING_PAYMENT, u2);
+        Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"),OrderStatus.WAITING_PAYMENT, u1);
         userRepository.saveAll(Arrays.asList(u1,u2)); // salva os usuários no banco de dados, usando o método saveAll do user repository, que recebe uma lista de usuários e salva todos eles no banco de dados
         orderRepository.saveAll(Arrays.asList(o1,o2,o3));
 
