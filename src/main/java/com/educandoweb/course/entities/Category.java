@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import javax.annotation.processing.Generated;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="tb_category")
@@ -17,6 +19,9 @@ public class Category implements Serializable{
     private Long id;
 
     private String name;
+
+    @Transient // ele vai impedir que o JPA tente mapear esse atributo para uma coluna no banco de dados, ou seja, ele vai ignorar esse atributo na hora de criar a tabela no banco de dados, e ele vai ser usado apenas para armazenar os produtos relacionados a essa categoria, sem criar uma tabela de relacionamento entre as duas entidades
+    private Set<Product> products = new HashSet<>();
 
     public Category() {
     }
@@ -52,4 +57,10 @@ public class Category implements Serializable{
     public int hashCode() {
         return Objects.hash(id, name);
     }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+
 }

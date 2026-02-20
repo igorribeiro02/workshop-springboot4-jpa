@@ -2,10 +2,12 @@ package com.educandoweb.course.config;
 
 import com.educandoweb.course.entities.Category;
 import com.educandoweb.course.entities.Order;
+import com.educandoweb.course.entities.Product;
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.entities.enums.OrderStatus;
 import com.educandoweb.course.repositories.CategoryRepository;
 import com.educandoweb.course.repositories.OrderRepository;
+import com.educandoweb.course.repositories.ProductRepository;
 import com.educandoweb.course.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +28,10 @@ public class TestConfig implements CommandLineRunner {
     private UserRepository userRepository; // o spring vai injetar uma instancia do user repository aqui, para que eu possa usar para acessar os dados do banco de dados e popular o banco de dados com alguns dados de teste
 
     @Autowired
+    private ProductRepository productRepository;
+
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
 
@@ -39,7 +45,14 @@ public class TestConfig implements CommandLineRunner {
         Category cat2 = new Category(null, "Books");
         Category cat3 = new Category(null, "Computers");
 
+        Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+        Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+        Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+        Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+        Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
+
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3)); // salva as categorias no banco de dados, usando o método saveAll do category repository, que recebe uma lista de categorias e salva todas elas no banco de dados
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5)); // salva os produtos no banco de dados, usando o método saveAll do product repository, que recebe uma lista de produtos e salva todos eles no banco de dados
 
         User u1 = new User(null, "Maria Brown", "988888888","maria@gmail.com", "123456");
         User u2 = new User(null, "Alex Green", "977777777","alex@gmail.com", "123456");
