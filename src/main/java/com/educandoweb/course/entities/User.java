@@ -1,5 +1,6 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class User implements Serializable {
     private String email;
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client") // mapeamento do relacionamento, indicando que o atributo client da classe Order é o dono do relacionamento, ou seja, é a chave estrangeira na tabela de pedidos
     private List<Order> orders = new ArrayList<>(); // instanciando a lista de pedidos, para evitar erros de null pointer exception
 
