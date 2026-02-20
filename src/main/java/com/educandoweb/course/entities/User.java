@@ -3,6 +3,8 @@ package com.educandoweb.course.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -18,6 +20,10 @@ public class User implements Serializable {
     private String phone;
     private String email;
     private String password;
+
+    @OneToMany(mappedBy = "client") // mapeamento do relacionamento, indicando que o atributo client da classe Order é o dono do relacionamento, ou seja, é a chave estrangeira na tabela de pedidos
+    private List<Order> orders = new ArrayList<>(); // instanciando a lista de pedidos, para evitar erros de null pointer exception
+
 
     public User(){
 
@@ -54,6 +60,9 @@ public class User implements Serializable {
     public String getEmail() {
         return email;
     }
+    public List<Order> getOrders() {
+        return orders;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -70,6 +79,8 @@ public class User implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+
 
 
 }
