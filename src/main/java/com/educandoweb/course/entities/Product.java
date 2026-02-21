@@ -1,5 +1,6 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -28,6 +29,9 @@ public class Product implements Serializable {
     private Set<Category> categories = new HashSet<>(); // começar vazia e instanciada
     // o set nao pode ser instanciado
 
+    //nao irei admitir repeticoes com o set
+    @OneToMany(mappedBy = "id.product") //mapeamento do relacionamento, indicando que o atributo id.product da classe OrderItem é o responsável pelo relacionamento
+    private Set<OrderItem> items = new HashSet<>();
     public Product() {
 
     }
@@ -83,6 +87,15 @@ public class Product implements Serializable {
     public Set<Category> getCategories() {
         return categories;
     }
+
+    @JsonIgnore
+    public Set<Order> getOrders(){
+        Set<Order> set = new HashSet<>();
+        for(OrderItem x: items){ // percorrer cada objeto de orderItem
+            set.add(x.getOrder()); // adciona o pedido
+        }
+        return set;
+     }
 
     @Override
     public boolean equals(Object o) {
