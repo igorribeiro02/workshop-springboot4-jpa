@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order") //gera um noutro nome para a tabela par an oter conflitos
@@ -31,6 +33,10 @@ public class Order implements Serializable {
     private User client;// implementar o relacionamento
 
     //para implementar o relacionamento entre Order e User, basta colocar o tipo do atributo como User, e o nome do atributo como client, para indicar que o cliente é um usuário, e o pedido tem um cliente, que é um usuário
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.order") //mapeamento do relacionamento, indicando que o atributo id.order da classe OrderItem é o responsável pelo relacionamento
+    private Set<OrderItem> items = new HashSet<>();
 
 
     public Order() {
@@ -78,6 +84,10 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Set<OrderItem> getItems(){
+        return items;
     }
 
     @Override
