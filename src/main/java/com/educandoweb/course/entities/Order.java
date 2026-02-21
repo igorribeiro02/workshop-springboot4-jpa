@@ -38,6 +38,10 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "id.order") //mapeamento do relacionamento, indicando que o atributo id.order da classe OrderItem é o responsável pelo relacionamento
     private Set<OrderItem> items = new HashSet<>();
 
+    // o cascade serve para mapear as entidades para ter o mesmo id, ou seja, o id do pagamento vai ser o mesmo id do pedido, e o MapsId serve para mapear as entidades para ter o mesmo id, ou seja, o id do pagamento vai ser o mesmo id do pedido
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) //mapeamento do relacionamento, indicando que o atributo order da classe Payment é o responsável pelo relacionamento, e o cascade ALL para que as operações de persistencia sejam propagadas para a entidade Payment
+    private Payment payment;
+
 
     public Order() {
     }
@@ -88,6 +92,14 @@ public class Order implements Serializable {
 
     public Set<OrderItem> getItems(){
         return items;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override
