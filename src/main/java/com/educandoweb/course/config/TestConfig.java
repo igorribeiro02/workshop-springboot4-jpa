@@ -54,6 +54,16 @@ public class TestConfig implements CommandLineRunner {
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3)); // salva as categorias no banco de dados, usando o método saveAll do category repository, que recebe uma lista de categorias e salva todas elas no banco de dados
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5)); // salva os produtos no banco de dados, usando o método saveAll do product repository, que recebe uma lista de produtos e salva todos eles no banco de dados
 
+        p1.getCategories().add(cat2); // adiciona a categoria "Books" ao produto "The Lord of the Rings", usando o método getCategories() para obter a lista de categorias do produto, e o método add() para adicionar a categoria à lista de categorias do produto
+        p2.getCategories().add(cat1); // adiciona a categoria "Electronics" ao produto "Smart TV"
+        p2.getCategories().add(cat3); // adiciona a categoria "Computers" ao produto "Smart TV"
+        p3.getCategories().add(cat3); // adiciona a categoria "Computers" ao produto "Macbook Pro"
+        p4.getCategories().add(cat3); // adiciona a categoria "Computers" ao produto "PC Gamer"
+        p5.getCategories().add(cat2); // adiciona a categoria "Books" ao produto "Rails for Dummies"
+
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5)); // salva os produtos no banco de dados, usando o método saveAll do product repository, que recebe uma lista de produtos e salva todos eles no banco de dados, para atualizar as categorias dos produtos no banco de dados
+
+
         User u1 = new User(null, "Maria Brown", "988888888","maria@gmail.com", "123456");
         User u2 = new User(null, "Alex Green", "977777777","alex@gmail.com", "123456");
 

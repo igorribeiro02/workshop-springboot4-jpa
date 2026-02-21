@@ -21,7 +21,10 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
     //garantir que um priduto possa estar em vários pedidos, e um pedido possa conter vários produtos, ou seja, um relacionamento muitos para muitos entre as entidades Product e Order
-    @Transient
+    @ManyToMany
+    @JoinTable(name = "tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id")) // nome da tabela de relacionamento, e as chaves estrangeiras que vão referenciar as tabelas de produtos e categorias
     private Set<Category> categories = new HashSet<>(); // começar vazia e instanciada
     // o set nao pode ser instanciado
 

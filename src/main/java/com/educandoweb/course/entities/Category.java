@@ -1,5 +1,6 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import javax.annotation.processing.Generated;
@@ -20,7 +21,8 @@ public class Category implements Serializable{
 
     private String name;
 
-    @Transient // ele vai impedir que o JPA tente mapear esse atributo para uma coluna no banco de dados, ou seja, ele vai ignorar esse atributo na hora de criar a tabela no banco de dados, e ele vai ser usado apenas para armazenar os produtos relacionados a essa categoria, sem criar uma tabela de relacionamento entre as duas entidades
+    @JsonIgnore // isso é para evitar que o JPA tente serializar esse atributo para o JSON, ou seja, ele vai impedir que o JPA tente converter esse atributo para um formato JSON, e ele vai ser usado apenas para armazenar os produtos relacionados a essa categoria, sem criar uma tabela de relacionamento entre as duas entidades
+    @ManyToMany(mappedBy = "categories") // ele vai impedir que o JPA tente mapear esse atributo para uma coluna no banco de dados, ou seja, ele vai ignorar esse atributo na hora de criar a tabela no banco de dados, e ele vai ser usado apenas para armazenar os produtos relacionados a essa categoria, sem criar uma tabela de relacionamento entre as duas entidades
     private Set<Product> products = new HashSet<>();
 
     public Category() {
