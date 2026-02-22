@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Entity
 @Table(name = "tb_order") //gera um noutro nome para a tabela par an oter conflitos
 public class Order implements Serializable {
@@ -100,6 +102,14 @@ public class Order implements Serializable {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    public Double getTotal(){
+        double sum = 0.0;
+        for(OrderItem x: items){
+            sum += x.getSubTotal();
+        }
+        return sum;
     }
 
     @Override
