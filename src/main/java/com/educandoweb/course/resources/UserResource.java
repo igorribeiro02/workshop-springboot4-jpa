@@ -40,4 +40,10 @@ public class UserResource {
         return ResponseEntity.created(uri).body(obj);// retorna a resposta com sucesso
     }
 
+    // lembrar de passar o id
+    @DeleteMapping(value = "/{id}") // o @resquestbody é para dizer que o objeto que vai chegar no corpo da requisição, vai ser convertido para um objeto do tipo User, e o @postmapping é para dizer que essa requisição vai ser do tipo post, ou seja, para inserir um novo usuário no banco de dados
+    public ResponseEntity<Void> delete(@PathVariable Long id){ // a resposta da requisiçãoi noa vai retornar nada
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
