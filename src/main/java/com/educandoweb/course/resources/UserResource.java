@@ -1,6 +1,7 @@
 package com.educandoweb.course.resources;
 
 import com.educandoweb.course.entities.User;
+import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ public class UserResource {
     //dependencia par ao service
     @Autowired
     private UserService service;
+    @Autowired
+    private UserRepository userRepository;
 
     // aqui vai ficar os endpoints para acessar os usuários
     @GetMapping
@@ -31,8 +34,8 @@ public class UserResource {
         User obj = service.findById(id);
         return ResponseEntity.ok().body(obj);// retorna a resposta com sucesso
     }
-
-    @PostMapping // o @resquestbody é para dizer que o objeto que vai chegar no corpo da requisição, vai ser convertido para um objeto do tipo User, e o @postmapping é para dizer que essa requisição vai ser do tipo post, ou seja, para inserir um novo usuário no banco de dados
+    @PostMapping
+    // o @resquestbody é para dizer que o objeto que vai chegar no corpo da requisição, vai ser convertido para um objeto do tipo User, e o @postmapping é para dizer que essa requisição vai ser do tipo post, ou seja, para inserir um novo usuário no banco de dados
     public ResponseEntity<User> insert(@RequestBody User obj){
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -45,5 +48,12 @@ public class UserResource {
     public ResponseEntity<Void> delete(@PathVariable Long id){ // a resposta da requisiçãoi noa vai retornar nada
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    //resource para atualizar um usuário, usando o método put, que é o método recomendado para atualizar um recurso, e o @resquestbody é para dizer que o objeto que vai chegar no corpo da requisição, vai ser convertido para um objeto do tipo User, e o @putmapping é para dizer que essa requisição vai ser do tipo put, ou seja, para atualizar um usuário no banco de dados
+    @PutMapping(value = "/{id}") // o @resquestbody é para dizer que o objeto que vai chegar no corpo da requisição, vai ser convertido para um objeto do tipo
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj){ // a resposta da requisiçãoi noa vai retornar nada
+        obj = service.update(id, obj); // atualiza meu usuario
+        return ResponseEntity.ok().body(obj); // retorna a resposta com sucesso, e o corpo da resposta é o usuário atualizado
     }
 }

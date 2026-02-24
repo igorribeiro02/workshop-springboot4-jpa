@@ -3,8 +3,12 @@ package com.educandoweb.course.services;
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +19,7 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
+    private UserService service;
 
     public List<User> findAll() {
         return repository.findAll(); // retorna a lista de usuários do banco de dados, usando o método findAll do user repository, que retorna uma lista de usuários
@@ -33,4 +38,19 @@ public class UserService {
     public void delete(Long id){
         repository.deleteById(id);
     }
+    @PutMapping(value = "/{id}") // o @resquestbody é para dizer
+    public User update(Long id, User obj){
+        User entity = repository.getReferenceById(id); // prepara o obj para ser modigicado
+        service.updateData(entity, obj); // atualiza os dados do obj com os dados do entity
+        return repository.save(entity);
+    }
+
+    //so deixo atualizar os campos que eu quero, para evitar que o cliente possa atualizar campos que não devem ser atualizados, como o id, ou a senha, por exemplo
+    public void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
+        entity.setPhone(obj.getPhone());
+    }
+
+
 }
