@@ -4,6 +4,8 @@ import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
+import org.antlr.v4.runtime.RuntimeMetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -52,9 +54,13 @@ public class UserService {
 
     @PutMapping(value = "/{id}") // o @resquestbody é para dizer
     public User update(Long id, User obj){
-        User entity = repository.getReferenceById(id); // prepara o obj para ser modigicado
-        service.updateData(entity, obj); // atualiza os dados do obj com os dados do entity
-        return repository.save(entity);
+        try{
+            User entity = repository.getReferenceById(id); // prepara o obj para ser modigicado
+            service.updateData(entity, obj); // atualiza os dados do obj com os dados do entity
+            return repository.save(entity);
+        } catch (EntityNotFoundException e){
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     //so deixo atualizar os campos que eu quero, para evitar que o cliente possa atualizar campos que não devem ser atualizados, como o id, ou a senha, por exemplo
