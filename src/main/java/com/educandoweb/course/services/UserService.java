@@ -2,6 +2,7 @@ package com.educandoweb.course.services;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
+import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
-        return obj.get(); // retorna o usuário do banco de dados, usando o método findById do user repository, que retorna um Optional<User>, e o método get() para obter o usuário do Optional
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // retorna o usuário do banco de dados, usando o método findById do user repository, que retorna um Optional<User>, e o método get() para obter o usuário do Optional
     }
 
     // operação para salvar no banco de dados um
